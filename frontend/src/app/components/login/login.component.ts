@@ -22,9 +22,8 @@ export class LoginComponent {
 
     this.authService.login({ username: this.username, password: this.password })
       .subscribe({
-        next: (response) => {
-          console.log('Login response:', response);
-          if (response.success) {
+        next: (response: any) => {
+          if (response && response.username && response.role) {
             this.authService.setUser({
               username: response.username,
               role: response.role
