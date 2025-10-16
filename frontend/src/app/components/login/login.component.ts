@@ -19,18 +19,18 @@ export class LoginComponent {
 
   login() {
     this.errorMessage = '';
-    
+
     this.authService.login({ username: this.username, password: this.password })
       .subscribe({
-        next: (response) => {
-          if (response.success) {
+        next: (response: any) => {
+          if (response && response.username && response.role) {
             this.authService.setUser({
               username: response.username,
               role: response.role
             });
             this.router.navigate(['/home']);
           } else {
-            this.errorMessage = response.message;
+            this.errorMessage = 'Invalid credentials';
           }
         },
         error: (error) => {
