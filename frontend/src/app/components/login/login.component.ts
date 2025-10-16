@@ -22,8 +22,8 @@ export class LoginComponent {
 
     this.authService.login({ username: this.username, password: this.password })
       .subscribe({
-        next: (response: any) => {
-          if (response && response.username && response.role) {
+        next: (response) => {
+          if (response.success) {
             this.authService.setUser({
               username: response.username,
               role: response.role
@@ -34,8 +34,8 @@ export class LoginComponent {
           }
         },
         error: (error) => {
-          this.errorMessage = 'Login failed. Please try again.';
           console.error('Login error:', error);
+          this.errorMessage = 'Login failed. Please try again.';
         }
       });
   }
