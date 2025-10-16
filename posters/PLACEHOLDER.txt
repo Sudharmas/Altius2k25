@@ -1,0 +1,11 @@
+# Placeholder - Replace with actual event poster
+
+This is a placeholder file for event poster AK25001.jpg
+
+Place your actual event poster image here with the filename matching your event ID.
+
+Format: JPG/JPEG
+Size: 800x1200 pixels recommended
+Max file size: 2MB
+
+See posters/README.md for more details.

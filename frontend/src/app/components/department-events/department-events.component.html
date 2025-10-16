@@ -1,0 +1,29 @@
+<div class="dept-events-container">
+  <div class="container">
+    <h1 class="page-title">{{ departmentId }} Events</h1>
+    
+    <div class="events-grid">
+      <a [routerLink]="['/events', event.eventId]" 
+         class="event-card" 
+         *ngFor="let event of events">
+        <div class="event-poster">
+          <img [src]="'assets/posters/' + event.eventId + '.jpg'" 
+               [alt]="event.eventName"
+               onerror="this.src='assets/placeholder.jpg'">
+        </div>
+        <div class="event-info">
+          <h3>{{ event.eventName }}</h3>
+          <div class="coordinators-preview">
+            <p *ngFor="let coord of event.coordinators | keyvalue | slice:0:2">
+              {{ coord.key }}: {{ coord.value }}
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="no-events" *ngIf="events.length === 0">
+      <p>No events available for this department.</p>
+    </div>
+  </div>
+</div>

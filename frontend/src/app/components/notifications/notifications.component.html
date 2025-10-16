@@ -1,0 +1,38 @@
+<div class="notifications-container">
+  <div class="container">
+    <h1 class="page-title">Administrator Notifications</h1>
+    
+    <div class="notifications-list">
+      <div class="notification-card" *ngFor="let notification of notifications">
+        <div class="notification-header">
+          <h3>Event: {{ notification.eventId }}</h3>
+          <span class="timestamp" *ngIf="notification.createdAt">
+            {{ notification.createdAt | date:'medium' }}
+          </span>
+        </div>
+        
+        <div class="notification-body">
+          <p class="message">{{ notification.message }}</p>
+          
+          <div class="requester-info">
+            <span class="label">Requested by:</span>
+            <span class="value">{{ notification.coordinatorId }}</span>
+          </div>
+        </div>
+        
+        <div class="notification-actions">
+          <button class="btn-approve" (click)="approveRequest(notification)">
+            ✓ Approve
+          </button>
+          <button class="btn-reject" (click)="rejectRequest(notification)">
+            ✗ Reject
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-notifications" *ngIf="notifications.length === 0">
+      <p>No pending notifications.</p>
+    </div>
+  </div>
+</div>

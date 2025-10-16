@@ -1,0 +1,55 @@
+<div class="view-scores-container">
+  <div class="container">
+    <h1 class="page-title">Event Scores & Results</h1>
+    
+    <div class="success-message" *ngIf="requestMessage">
+      {{ requestMessage }}
+    </div>
+    
+    <div class="results-list">
+      <div class="result-card" *ngFor="let result of results">
+        <div class="result-header">
+          <h3>{{ result.eventId }}</h3>
+          <span class="timestamp" *ngIf="result.submittedAt">
+            Submitted: {{ result.submittedAt | date:'short' }}
+          </span>
+        </div>
+        
+        <div class="result-details">
+          <div class="detail-row">
+            <span class="label">🏆 Winners:</span>
+            <span class="value">{{ result.winnersDept }}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="label">🥈 Runners:</span>
+            <span class="value">{{ result.runnersDept }}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="label">Submitted by:</span>
+            <span class="value">{{ result.coordinatorId }}</span>
+          </div>
+        </div>
+        
+        <div class="result-actions">
+          <button class="btn-update" (click)="requestUpdate(result)">
+            Request Update
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" *ngIf="results.length === 0">
+      <p>No results submitted yet.</p>
+    </div>
+
+    <div class="info-box">
+      <h3>How to Request Updates</h3>
+      <p>
+        If you notice any errors in the submitted results, click the "Request Update" button. 
+        Your request will be sent to the administrator for review and approval.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <div class="navbar-brand">
+        <a routerLink="/home">Altius 2k25</a>
+      </div>
+      
+      <button class="menu-toggle" (click)="toggleMenu()">
+        ☰
+      </button>
+      
+      <div class="navbar-menu" [class.active]="isMenuOpen">
+        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/events" routerLinkActive="active">Events</a>
+        <a routerLink="/departments" routerLinkActive="active">Departments</a>
+        
+        <div class="dropdown" *ngIf="authService.isLoggedIn()">
+          <button class="dropbtn">Profile ▼</button>
+          <div class="dropdown-content">
+            <a routerLink="/admin-panel">Admin Panel</a>
+            <a routerLink="/view-scores">View Scores</a>
+            <a routerLink="/notifications" *ngIf="authService.isAdministrator()">Notifications</a>
+            <a (click)="logout()">Logout</a>
+          </div>
+        </div>
+        
+        <a routerLink="/login" *ngIf="!authService.isLoggedIn()">Login</a>
+      </div>
+    </div>
+  </div>
+</nav>

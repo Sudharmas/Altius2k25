@@ -1,0 +1,40 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>Login to Altius 2k25</h2>
+    <p class="subtitle">Event Coordinator Portal</p>
+    
+    <form (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="username">USN</label>
+        <input 
+          type="text" 
+          id="username" 
+          [(ngModel)]="username" 
+          name="username"
+          placeholder="Enter your USN"
+          required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="password" 
+          name="password"
+          placeholder="Enter your password"
+          required>
+      </div>
+      
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+    
+    <p class="info-text">
+      Note: Only event coordinators can login. Use your registered USN and password.
+    </p>
+  </div>
+</div>

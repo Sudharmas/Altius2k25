@@ -1,0 +1,83 @@
+<div class="admin-panel-container">
+  <div class="container">
+    <h1 class="page-title">Admin Panel</h1>
+    
+    <div class="panel-content">
+      <div class="form-section">
+        <h2>Submit Event Results</h2>
+        
+        <form (ngSubmit)="submitResult()">
+          <div class="form-group">
+            <label>Coordinator ID (USN)</label>
+            <input 
+              type="text" 
+              [(ngModel)]="formData.coordinatorId" 
+              name="coordinatorId"
+              readonly
+              class="readonly-input">
+          </div>
+          
+          <div class="form-group">
+            <label for="eventId">Event *</label>
+            <select 
+              id="eventId"
+              [(ngModel)]="formData.eventId" 
+              name="eventId"
+              required>
+              <option value="">Select Event</option>
+              <option *ngFor="let event of events" [value]="event.eventId">
+                {{ event.eventName }} - {{ event.eventId }}
+              </option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="winnersDept">Winners Department *</label>
+            <input 
+              type="text" 
+              id="winnersDept"
+              [(ngModel)]="formData.winnersDept" 
+              name="winnersDept"
+              placeholder="e.g., Computer Science - CSE"
+              required>
+          </div>
+          
+          <div class="form-group">
+            <label for="runnersDept">Runners Department *</label>
+            <input 
+              type="text" 
+              id="runnersDept"
+              [(ngModel)]="formData.runnersDept" 
+              name="runnersDept"
+              placeholder="e.g., AIML - AIML"
+              required>
+          </div>
+          
+          <div class="success-message" *ngIf="successMessage">
+            {{ successMessage }}
+          </div>
+          
+          <div class="error-message" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+          
+          <div class="button-group">
+            <button type="submit" class="btn-submit">Submit Result</button>
+            <button type="button" class="btn-reset" (click)="resetForm()">Reset</button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="info-section">
+        <h3>Important Instructions</h3>
+        <ul>
+          <li>All fields marked with * are required</li>
+          <li>Select the event from the dropdown list</li>
+          <li>Enter department names clearly</li>
+          <li>If you need to edit submitted results, visit the <a routerLink="/view-scores">View Scores</a> page</li>
+          <li>Ensure all information is correct before submitting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
