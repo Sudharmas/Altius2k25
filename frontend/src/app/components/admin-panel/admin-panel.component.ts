@@ -1,3 +1,4 @@
+// /workspaces/Altius2k25/frontend/src/app/components/admin-panel/admin-panel.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
@@ -12,6 +13,12 @@ import { Event, EventResult } from '../../models/models';
 })
 export class AdminPanelComponent implements OnInit {
   events: Event[] = [];
+
+  // list of departments to show in dropdowns
+  departments: string[] = [
+    'CSE', 'ECE', 'ME', 'CE', 'EE', 'AE', 'IT', 'BIO', 'CHE', 'MBA'
+  ];
+
   formData: EventResult = {
     coordinatorId: '',
     eventId: '',
@@ -35,7 +42,9 @@ export class AdminPanelComponent implements OnInit {
     }
     
     const user = this.authService.getUser();
-    this.formData.coordinatorId = user.username;
+    if (user) {
+      this.formData.coordinatorId = user.username;
+    }
     
     this.loadEvents();
   }
@@ -47,6 +56,7 @@ export class AdminPanelComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading events:', error);
+        this.errorMessage = 'Failed to load events.';
       }
     });
   }
@@ -55,6 +65,11 @@ export class AdminPanelComponent implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
     
+    if (!this.formData.eventId || !this.formData.winnersDept || !this.formData.runnersDept) {
+      this.errorMessage = 'Please fill in all fields.';
+      return;
+    }
+
     this.adminService.submitResult(this.formData).subscribe({
       next: (result) => {
         this.successMessage = 'Result submitted successfully!';
@@ -70,7 +85,7 @@ export class AdminPanelComponent implements OnInit {
   resetForm() {
     const user = this.authService.getUser();
     this.formData = {
-      coordinatorId: user.username,
+      coordinatorId: user ? user.username : '',
       eventId: '',
       winnersDept: '',
       runnersDept: ''
