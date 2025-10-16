@@ -76,32 +76,46 @@ npm install
 
 ## Configuration
 
-### Backend Configuration
+### Quick Start (Development)
+
+For local development, the application works out-of-the-box with minimal configuration:
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+The application will use:
+- **H2 in-memory database** for event results (no setup required)
+- **Local MongoDB** (optional - some features may be limited without it)
+
+### Production Configuration
+
+For production deployment with cloud databases:
 
 1. **MongoDB Atlas Setup**:
    - Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-   - Create a new cluster
-   - Create a database named `altius2k25`
-   - Create two collections: `EVENTS` and `CREDENTIALS`
+   - Create a new cluster and database named `altius2k25`
+   - Create collections: `EVENTS` and `CREDENTIALS`
    - Get your connection string
 
-2. **Neon PostgreSQL Setup**:
+2. **Neon PostgreSQL Setup** (optional - H2 works for development):
    - Create a free account at [Neon](https://neon.tech/)
    - Create a new project and database
    - Get your connection string
 
-3. **Update `backend/src/main/resources/application.properties`**:
+3. **Configure Using Environment Variables** (recommended):
 
-```properties
-# MongoDB Configuration
-spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/altius2k25?retryWrites=true&w=majority
-spring.data.mongodb.database=altius2k25
-
-# PostgreSQL Configuration
-spring.datasource.url=jdbc:postgresql://<your-neon-host>/<database>?sslmode=require
-spring.datasource.username=<your-neon-username>
-spring.datasource.password=<your-neon-password>
+```bash
+export MONGODB_URI="mongodb+srv://<username>:<password>@<cluster>.mongodb.net/altius2k25"
+export POSTGRES_URL="jdbc:postgresql://<neon-host>/<database>?sslmode=require"
+export POSTGRES_USERNAME="<username>"
+export POSTGRES_PASSWORD="<password>"
+export POSTGRES_DRIVER="org.postgresql.Driver"
+export HIBERNATE_DIALECT="org.hibernate.dialect.PostgreSQLDialect"
 ```
+
+**For detailed configuration instructions, see [DATABASE_CONFIGURATION.md](DATABASE_CONFIGURATION.md)**
 
 ### Frontend Configuration
 
@@ -276,15 +290,19 @@ For testing purposes, add these credentials to your MongoDB:
 
 ## Troubleshooting
 
+### Database Connection Issues
+
+**PostgreSQL Connection Errors** (UnknownHostException, Connection Refused):
+- The application uses **H2 in-memory database by default** for development
+- PostgreSQL configuration is optional - only needed for production
+- See [DATABASE_CONFIGURATION.md](DATABASE_CONFIGURATION.md) for detailed setup
+
 ### MongoDB Connection Issues
+- For development, MongoDB is optional (some features may be limited)
 - Ensure your IP address is whitelisted in MongoDB Atlas
 - Check connection string format
 - Verify database name and credentials
-
-### PostgreSQL/Neon Connection Issues
-- Verify connection string includes `?sslmode=require`
-- Check database credentials
-- Ensure database is active
+- See [DATABASE_CONFIGURATION.md](DATABASE_CONFIGURATION.md) for detailed troubleshooting
 
 ### Frontend Not Connecting to Backend
 - Verify backend is running on port 8080

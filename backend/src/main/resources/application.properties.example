@@ -1,0 +1,30 @@
+# Server Configuration
+server.port=8080
+
+# MongoDB Configuration (MongoDB Atlas)
+# Replace with your MongoDB Atlas connection string
+spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster-url>/<database-name>?retryWrites=true&w=majority
+spring.data.mongodb.database=altius2k25
+
+# PostgreSQL Configuration for Neon DB (Administrator Notifications)
+# Replace with your Neon PostgreSQL connection details
+# Note: If you don't have PostgreSQL configured, the application will use H2 in-memory database
+spring.datasource.url=jdbc:postgresql://<neon-host>/<database-name>?sslmode=require
+spring.datasource.username=<username>
+spring.datasource.password=<password>
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# JPA Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# File Upload Configuration
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# CORS Configuration
+cors.allowed-origins=http://localhost:4200,http://localhost:3000
+
+# Application Configuration
+app.admin.id=ADMIN001

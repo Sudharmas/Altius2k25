@@ -16,9 +16,15 @@ Run the setup script to verify your environment:
 setup.bat
 ```
 
-## Step 1: Database Setup (5 minutes)
+## Step 1: Database Setup (Optional for Quick Start)
 
-### MongoDB Atlas
+For the fastest start, **skip this step** and use the default configuration:
+- The application will use H2 in-memory database (no setup required)
+- Some features will be limited without MongoDB, but the application will run
+
+### For Full Features (Optional)
+
+#### MongoDB Atlas
 
 1. Visit [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and sign up
 2. Create a free M0 cluster (takes ~3-5 minutes)
@@ -31,29 +37,49 @@ setup.bat
 5. Click "Connect" on your cluster → "Connect your application"
 6. Copy the connection string
 
-### Neon PostgreSQL
+### Neon PostgreSQL (Optional - H2 works for development)
+
+**Note**: PostgreSQL is not required for development. The application will automatically use H2 in-memory database if PostgreSQL is not configured.
+
+If you want to use PostgreSQL:
 
 1. Visit [Neon](https://neon.tech/) and sign up
 2. Create a new project: "Altius2k25"
 3. Copy the connection string from dashboard
 
-## Step 2: Configure Application (2 minutes)
+## Step 2: Configure Application (Optional)
 
-Edit `backend/src/main/resources/application.properties`:
+**For Quick Start**: Skip this step! The application is pre-configured to work with default settings (H2 database).
 
-```properties
-# Replace with your MongoDB connection string
-spring.data.mongodb.uri=mongodb+srv://altius:<password>@cluster0.xxxxx.mongodb.net/altius2k25?retryWrites=true&w=majority
+**For Production**: Configure your databases by setting environment variables or editing `application.properties`.
 
-# Replace with your Neon connection details
-spring.datasource.url=jdbc:postgresql://ep-xxxxx.us-east-2.aws.neon.tech/altius?sslmode=require
-spring.datasource.username=your-username
-spring.datasource.password=your-password
+See [DATABASE_CONFIGURATION.md](DATABASE_CONFIGURATION.md) for detailed configuration options.
+
+### Quick Configuration Example (Environment Variables)
+
+If you set up databases in Step 1:
+
+If you set up databases in Step 1:
+
+```bash
+# MongoDB (if configured)
+export MONGODB_URI="mongodb+srv://altius:<password>@cluster0.xxxxx.mongodb.net/altius2k25?retryWrites=true&w=majority"
+
+# PostgreSQL (optional - uses H2 if not set)
+export POSTGRES_URL="jdbc:postgresql://ep-xxxxx.us-east-2.aws.neon.tech/altius?sslmode=require"
+export POSTGRES_USERNAME="your-username"
+export POSTGRES_PASSWORD="your-password"
+export POSTGRES_DRIVER="org.postgresql.Driver"
+export HIBERNATE_DIALECT="org.hibernate.dialect.PostgreSQLDialect"
 ```
 
-## Step 3: Add Sample Data (3 minutes)
+## Step 3: Add Sample Data (Optional)
 
-### Using MongoDB Atlas Web Interface
+**For Quick Start**: Skip this step! You can add data later through the application UI or API.
+
+**For Full Setup**: Add sample data to MongoDB for testing.
+
+### Using MongoDB Atlas Web Interface (if you set up MongoDB)
 
 1. Go to MongoDB Atlas → Browse Collections
 2. Select `altius2k25` database
@@ -142,15 +168,18 @@ Use the credentials you added:
 
 ### Backend won't start
 
+**Error: "UnknownHostException" or "Failed to connect to PostgreSQL"**
+- **SOLUTION**: This is fixed! The application now uses H2 in-memory database by default
+- PostgreSQL is optional and only needed for production
+- See [DATABASE_CONFIGURATION.md](../DATABASE_CONFIGURATION.md) for more details
+
 **Error: "Failed to connect to MongoDB"**
+- MongoDB is optional for quick testing
+- The application will start but some features will be limited
 - Check your MongoDB connection string
 - Ensure IP is whitelisted
 - Verify username and password
-
-**Error: "Failed to connect to PostgreSQL"**
-- Check Neon connection string
-- Ensure database is active
-- Verify SSL mode is set
+- For full setup, see [DATABASE_CONFIGURATION.md](../DATABASE_CONFIGURATION.md)
 
 ### Frontend won't start
 

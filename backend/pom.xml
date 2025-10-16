@@ -42,6 +42,13 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- H2 Database (In-Memory fallback for development) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- Spring Boot Data JPA for PostgreSQL -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
