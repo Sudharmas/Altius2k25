@@ -36,7 +36,7 @@ public class AdminService {
         return eventResultRepository.findAll();
     }
     
-    public EventResult updateResult(Long id, ResultSubmissionRequest request) {
+    public EventResult updateResult(String id, ResultSubmissionRequest request) {
         Optional<EventResult> resultOpt = eventResultRepository.findById(id);
         
         if (resultOpt.isPresent()) {
