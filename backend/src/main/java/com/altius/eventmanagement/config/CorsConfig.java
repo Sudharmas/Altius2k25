@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:4200", "http://localhost:3000", "*")
+                        .allowedOrigins("https://cautious-barnacle-6q4pw56rg56f57rq-4200.app.github.dev", "http://localhost:4200", "http://localhost:3000", "*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(false);
