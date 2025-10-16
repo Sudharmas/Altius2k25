@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EventResult, Notification } from '../models/models';
+import { EventResult, Notification, ChampionsCount } from '../models/models';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -34,5 +34,17 @@ export class AdminService {
 
   updateNotificationStatus(id: number, status: string): Observable<Notification> {
     return this.http.put<Notification>(`${this.apiUrl}/notifications/${id}`, { status });
+  }
+
+  getLeaderboard(): Observable<ChampionsCount[]> {
+    return this.http.get<ChampionsCount[]>(`${environment.apiUrl}/champions/leaderboard`);
+  }
+
+  getDepartments(): Observable<{ [key: string]: string }> {
+    return this.http.get<{ [key: string]: string }>(`${environment.apiUrl}/champions/departments`);
+  }
+
+  getEventsList(): Observable<{ [key: string]: string }> {
+    return this.http.get<{ [key: string]: string }>(`${environment.apiUrl}/champions/events`);
   }
 }

@@ -21,6 +21,9 @@ public class AdminService {
     @Autowired
     private NotificationRepository notificationRepository;
     
+    @Autowired
+    private ChampionsService championsService;
+    
     public EventResult submitResult(ResultSubmissionRequest request) {
         EventResult result = new EventResult();
         result.setCoordinatorId(request.getCoordinatorId());
@@ -29,7 +32,11 @@ public class AdminService {
         result.setRunnersDept(request.getRunnersDept());
         result.setSubmittedAt(LocalDateTime.now());
         
-        return eventResultRepository.save(result);
+        EventResult savedResult = eventResultRepository.save(result);
+        
+        championsService.championsCounter(request.getWinnersDept(), request.getRunnersDept());
+        
+        return savedResult;
     }
     
     public List<EventResult> getAllResults() {

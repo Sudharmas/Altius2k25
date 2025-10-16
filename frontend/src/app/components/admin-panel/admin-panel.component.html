@@ -25,32 +25,38 @@
               name="eventId"
               required>
               <option value="">Select Event</option>
-              <option *ngFor="let event of events" [value]="event.eventId">
-                {{ event.eventName }} - {{ event.eventId }}
+              <option *ngFor="let key of getEventsListKeys()" [value]="key">
+                {{ eventsList[key] }} - {{ key }}
               </option>
             </select>
           </div>
           
           <div class="form-group">
             <label for="winnersDept">Winners Department *</label>
-            <input 
-              type="text" 
+            <select 
               id="winnersDept"
               [(ngModel)]="formData.winnersDept" 
               name="winnersDept"
-              placeholder="e.g., Computer Science - CSE"
               required>
+              <option value="">Select Department</option>
+              <option *ngFor="let key of getDepartmentKeys()" [value]="key">
+                {{ departments[key] }} - {{ key }}
+              </option>
+            </select>
           </div>
           
           <div class="form-group">
             <label for="runnersDept">Runners Department *</label>
-            <input 
-              type="text" 
+            <select 
               id="runnersDept"
               [(ngModel)]="formData.runnersDept" 
               name="runnersDept"
-              placeholder="e.g., AIML - AIML"
               required>
+              <option value="">Select Department</option>
+              <option *ngFor="let key of getDepartmentKeys()" [value]="key">
+                {{ departments[key] }} - {{ key }}
+              </option>
+            </select>
           </div>
           
           <div class="success-message" *ngIf="successMessage">
