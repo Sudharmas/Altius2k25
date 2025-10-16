@@ -23,5 +23,7 @@ public class Notification {
     private String message;
     private String status; // PENDING, APPROVED, REJECTED
     private LocalDateTime createdAt;
+    private String type; // e.g., EVENT_REQUEST
+    // Add other fields as needed
     
 }
