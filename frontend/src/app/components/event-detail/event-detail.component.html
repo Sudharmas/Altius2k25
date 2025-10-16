@@ -1,0 +1,43 @@
+<div class="event-detail-container" *ngIf="event">
+  <div class="container">
+    <div class="event-header">
+      <h1>{{ event.eventName }}</h1>
+      <p class="event-dept">Department: {{ event.departmentId }}</p>
+    </div>
+
+    <div class="event-content">
+      <div class="event-poster-section">
+        <img [src]="'assets/posters/' + event.eventId + '.jpg'" 
+             [alt]="event.eventName"
+             onerror="this.src='assets/placeholder.jpg'"
+             class="event-poster-large">
+        
+        <button class="btn-download" (click)="downloadRulebook()">
+          Download Rulebook
+        </button>
+      </div>
+
+      <div class="coordinators-section">
+        <h2>Event Coordinators</h2>
+        <div class="coordinators-list">
+          <div class="coordinator-item" *ngFor="let coord of coordinatorsList">
+            <div class="coordinator-info">
+              <h3>{{ coord.id }}</h3>
+              <p class="contact-info">
+                <span class="icon">📞</span> {{ coord.contact }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-coordinators" *ngIf="coordinatorsList.length === 0">
+          <p>No coordinator information available.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="!event">
+  <p>Loading event details...</p>
+</div>

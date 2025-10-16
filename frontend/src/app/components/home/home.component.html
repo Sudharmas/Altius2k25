@@ -1,0 +1,76 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Welcome to Altius 2k25</h1>
+      <p class="hero-subtitle">The Ultimate Technical Fest</p>
+      <a routerLink="/events" class="btn-primary">Explore Events</a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="container">
+      <h2 class="section-title">About Altius 2k25</h2>
+      <p class="about-text">
+        Altius 2k25 is the premier technical fest organized to showcase innovation, creativity, and technical prowess. 
+        This year, we bring together students from various departments to compete in exciting technical events, 
+        workshops, and competitions. Join us in this celebration of technology and innovation!
+      </p>
+      <p class="about-text">
+        With a diverse range of events spanning coding competitions, robotics challenges, design contests, and more, 
+        Altius 2k25 promises to be an unforgettable experience for all participants. Our goal is to foster learning, 
+        collaboration, and healthy competition among the brightest minds.
+      </p>
+    </div>
+  </section>
+
+  <!-- Featured Events Section -->
+  <section class="events-section">
+    <div class="container">
+      <h2 class="section-title">Featured Events</h2>
+      <div class="events-carousel">
+        <div class="event-card" *ngFor="let event of featuredEvents">
+          <div class="event-image">
+            <img [src]="'assets/posters/' + event.eventId + '.jpg'" 
+                 [alt]="event.eventName"
+                 onerror="this.src='assets/placeholder.jpg'">
+          </div>
+          <div class="event-info">
+            <h3>{{ event.eventName }}</h3>
+            <a [routerLink]="['/events', event.eventId]" class="btn-secondary">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coordinators Section -->
+  <section class="coordinators-section">
+    <div class="container">
+      <h2 class="section-title">Meet Our Coordinators</h2>
+      
+      <div class="coordinator-group">
+        <h3>Staff Coordinators</h3>
+        <div class="coordinators-grid">
+          <div class="coordinator-card" *ngFor="let coord of coordinators.staff">
+            <img [src]="coord.photo" [alt]="coord.name" onerror="this.src='assets/placeholder.jpg'">
+            <h4>{{ coord.name }}</h4>
+            <p class="contact">{{ coord.contact }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="coordinator-group">
+        <h3>Student Coordinators</h3>
+        <div class="coordinators-grid">
+          <div class="coordinator-card" *ngFor="let coord of coordinators.students">
+            <img [src]="coord.photo" [alt]="coord.name" onerror="this.src='assets/placeholder.jpg'">
+            <h4>{{ coord.name }}</h4>
+            <p class="contact">{{ coord.contact }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

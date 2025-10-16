@@ -1,0 +1,20 @@
+<div class="departments-container">
+  <div class="container">
+    <h1 class="page-title">Departments</h1>
+    
+    <div class="departments-grid">
+      <a [routerLink]="['/departments', dept.id]" 
+         class="department-card" 
+         *ngFor="let dept of departments">
+        <div class="dept-photo">
+          <img [src]="'assets/department_photos/' + dept.photo" 
+               [alt]="dept.name"
+               onerror="this.src='assets/placeholder.jpg'">
+        </div>
+        <div class="dept-info">
+          <h3>{{ dept.name }}</h3>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
