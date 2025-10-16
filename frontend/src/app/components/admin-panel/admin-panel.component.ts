@@ -14,10 +14,9 @@ import { Event, EventResult } from '../../models/models';
 export class AdminPanelComponent implements OnInit {
   events: Event[] = [];
 
-  // list of departments to show in dropdowns
-  departments: string[] = [
-    'CSE', 'ECE', 'ME', 'CE', 'EE', 'AE', 'IT', 'BIO', 'CHE', 'MBA'
-  ];
+  // Maps for departments and events
+  departments: { [key: string]: string } = {};
+  eventsList: { [key: string]: string } = {};
 
   formData: EventResult = {
     coordinatorId: '',
@@ -47,6 +46,8 @@ export class AdminPanelComponent implements OnInit {
     }
     
     this.loadEvents();
+    this.loadDepartments();
+    this.loadEventsList();
   }
 
   loadEvents() {
@@ -57,6 +58,28 @@ export class AdminPanelComponent implements OnInit {
       error: (error) => {
         console.error('Error loading events:', error);
         this.errorMessage = 'Failed to load events.';
+      }
+    });
+  }
+
+  loadDepartments() {
+    this.adminService.getDepartments().subscribe({
+      next: (depts) => {
+        this.departments = depts;
+      },
+      error: (error) => {
+        console.error('Error loading departments:', error);
+      }
+    });
+  }
+
+  loadEventsList() {
+    this.adminService.getEventsList().subscribe({
+      next: (events) => {
+        this.eventsList = events;
+      },
+      error: (error) => {
+        console.error('Error loading events list:', error);
       }
     });
   }
@@ -72,7 +95,7 @@ export class AdminPanelComponent implements OnInit {
 
     this.adminService.submitResult(this.formData).subscribe({
       next: (result) => {
-        this.successMessage = 'Result submitted successfully!';
+        this.successMessage = 'Result submitted successfully! Leaderboard will be updated.';
         this.resetForm();
       },
       error: (error) => {
@@ -80,6 +103,14 @@ export class AdminPanelComponent implements OnInit {
         console.error('Error submitting result:', error);
       }
     });
+  }
+
+  getDepartmentKeys(): string[] {
+    return Object.keys(this.departments);
+  }
+
+  getEventsListKeys(): string[] {
+    return Object.keys(this.eventsList);
   }
 
   resetForm() {

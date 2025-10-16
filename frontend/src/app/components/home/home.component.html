@@ -45,6 +45,42 @@
     </div>
   </section>
 
+  <!-- Leaderboard Section -->
+  <section class="leaderboard-section">
+    <div class="container">
+      <h2 class="section-title">🏆 Champions Leaderboard</h2>
+      <p class="leaderboard-subtitle">Top performing departments - Updated live!</p>
+      
+      <div class="leaderboard-container" *ngIf="leaderboard && leaderboard.length > 0">
+        <div class="leaderboard-item" *ngFor="let entry of leaderboard; let i = index" 
+             [class.first-place]="i === 0"
+             [class.second-place]="i === 1"
+             [class.third-place]="i === 2">
+          <div class="rank">
+            <span class="rank-number">{{ i + 1 }}</span>
+            <span class="medal" *ngIf="i === 0">🥇</span>
+            <span class="medal" *ngIf="i === 1">🥈</span>
+            <span class="medal" *ngIf="i === 2">🥉</span>
+          </div>
+          <div class="dept-info">
+            <h3>{{ entry.deptName }}</h3>
+            <p class="dept-id">{{ entry.deptId }}</p>
+          </div>
+          <div class="score">
+            <span class="score-number">{{ entry.count }}</span>
+            <span class="score-label">wins</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="no-data" *ngIf="!leaderboard || leaderboard.length === 0">
+        <p>No results yet. Check back soon!</p>
+      </div>
+      
+      <p class="update-info">Updates automatically every 5 minutes</p>
+    </div>
+  </section>
+
   <!-- Coordinators Section -->
   <section class="coordinators-section">
     <div class="container">

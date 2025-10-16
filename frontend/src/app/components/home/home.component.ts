@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from '../../services/event.service';
-import { Event } from '../../models/models';
+import { AdminService } from '../../services/admin.service';
+import { Event, ChampionsCount } from '../../models/models';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   featuredEvents: Event[] = [];
+  leaderboard: ChampionsCount[] = [];
+  private refreshSubscription?: Subscription;
 
   coordinators = {
     staff: [
@@ -21,10 +25,26 @@ export class HomeComponent implements OnInit {
     ]
   };
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private adminService: AdminService
+  ) {}
 
   ngOnInit() {
     this.loadFeaturedEvents();
+    this.loadLeaderboard();
+    
+    // Refresh leaderboard every 5 minutes (300000 ms)
+    this.refreshSubscription = interval(300000).subscribe(() => {
+      this.loadLeaderboard();
+    });
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription when component is destroyed
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
   loadFeaturedEvents() {
@@ -34,6 +54,17 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading events:', error);
+      }
+    });
+  }
+
+  loadLeaderboard() {
+    this.adminService.getLeaderboard().subscribe({
+      next: (leaderboard) => {
+        this.leaderboard = leaderboard;
+      },
+      error: (error) => {
+        console.error('Error loading leaderboard:', error);
       }
     });
   }

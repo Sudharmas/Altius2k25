@@ -36,3 +36,10 @@ export interface Notification {
   status: string;
   createdAt?: Date;
 }
+
+export interface ChampionsCount {
+  deptId: string;
+  deptName: string;
+  count: number;
+}
+
