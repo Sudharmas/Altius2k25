@@ -1,38 +1,37 @@
 <div class="notifications-container">
-  <div class="container">
-    <h1 class="page-title">Administrator Notifications</h1>
-    
-    <div class="notifications-list">
-      <div class="notification-card" *ngFor="let notification of notifications">
-        <div class="notification-header">
-          <h3>Event: {{ notification.eventId }}</h3>
-          <span class="timestamp" *ngIf="notification.createdAt">
-            {{ notification.createdAt | date:'medium' }}
-          </span>
+  <h2 class="page-title">Pending Notifications</h2>
+
+  <div *ngIf="isLoading" class="no-notifications">
+    Loading notifications...
+  </div>
+
+  <div *ngIf="!isLoading && notifications.length > 0" class="notifications-list">
+    <!-- Loop through each notification -->
+    <div *ngFor="let notification of notifications" class="notification-card">
+      <div class="notification-header">
+        <h3>{{ notification.type | titlecase }} Request</h3>
+        <span class="timestamp">{{ notification.createdAt | date:'medium' }}</span>
+      </div>
+      <div class="notification-body">
+        <p class="message">{{ notification.message }}</p>
+        <div class="requester-info">
+          <span class="label">Coordinator ID:</span>
+          <span class="value">{{ notification.coordinatorId }}</span>
         </div>
-        
-        <div class="notification-body">
-          <p class="message">{{ notification.message }}</p>
-          
-          <div class="requester-info">
-            <span class="label">Requested by:</span>
-            <span class="value">{{ notification.coordinatorId }}</span>
-          </div>
-        </div>
-        
-        <div class="notification-actions">
-          <button class="btn-approve" (click)="approveRequest(notification)">
-            ✓ Approve
-          </button>
-          <button class="btn-reject" (click)="rejectRequest(notification)">
-            ✗ Reject
-          </button>
+        <div class="requester-info">
+          <span class="label">Event ID:</span>
+          <span class="value">{{ notification.eventId }}</span>
         </div>
       </div>
+      <div class="notification-actions">
+        <button (click)="approve(notification.id)" class="btn-approve">Approve</button>
+        <button (click)="reject(notification.id)" class="btn-reject">Reject</button>
+      </div>
     </div>
+  </div>
 
-    <div class="no-notifications" *ngIf="notifications.length === 0">
-      <p>No pending notifications.</p>
-    </div>
+  <!-- Show this message if there are no notifications -->
+  <div *ngIf="!isLoading && notifications.length === 0" class="no-notifications">
+    There are no pending notifications at the moment.
   </div>
 </div>

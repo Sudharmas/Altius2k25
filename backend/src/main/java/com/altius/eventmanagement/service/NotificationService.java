@@ -13,7 +13,8 @@ public class NotificationService {
     private NotificationRepository notificationRepository;
 
     public List<Notification> getPendingNotifications() {
-        return notificationRepository.findByStatus("PENDING");
+        // Use the method that sorts by creation date in descending order
+        return notificationRepository.findByStatusOrderByCreatedAtDesc("PENDING");
     }
 
     public void updateNotificationStatus(Long id, String status) {

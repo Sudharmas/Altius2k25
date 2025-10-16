@@ -12,11 +12,10 @@ import { Event, EventResult } from '../../models/models';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  events: Event[] = [];
+  events: { [key: string]: string } = {"chess":"EVNT001","coding":"EVNT002","debate":"EVNT003"}; // Maps event names to IDs
 
   // Maps for departments and events
-  departments: { [key: string]: string } = {};
-  eventsList: { [key: string]: string } = {};
+  departments: { [key: string]: string } = {"Computer Science":"CSE","Mechanical Engineering":"ME","Electrical Engineering":"EE","Civil Engineering":"CE","Electronics and Communication":"ECE","Information Technology":"IT","Chemical Engineering":"CHE","Biotechnology":"BT","Aerospace Engineering":"AE","Environmental Science":"ES"};
 
   formData: EventResult = {
     coordinatorId: '',
@@ -47,13 +46,15 @@ export class AdminPanelComponent implements OnInit {
     
     this.loadEvents();
     this.loadDepartments();
-    this.loadEventsList();
   }
 
   loadEvents() {
     this.eventService.getAllEvents().subscribe({
-      next: (events) => {
-        this.events = events;
+      next: (events: Event[]) => {
+        this.events = events.reduce((acc, event) => {
+          acc[event.eventName] = event.eventId;
+          return acc;
+        }, {} as { [key: string]: string });
       },
       error: (error) => {
         console.error('Error loading events:', error);
@@ -69,17 +70,6 @@ export class AdminPanelComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading departments:', error);
-      }
-    });
-  }
-
-  loadEventsList() {
-    this.adminService.getEventsList().subscribe({
-      next: (events) => {
-        this.eventsList = events;
-      },
-      error: (error) => {
-        console.error('Error loading events list:', error);
       }
     });
   }
@@ -109,8 +99,8 @@ export class AdminPanelComponent implements OnInit {
     return Object.keys(this.departments);
   }
 
-  getEventsListKeys(): string[] {
-    return Object.keys(this.eventsList);
+  getEventKeys(): string[] {
+    return Object.keys(this.events);
   }
 
   resetForm() {

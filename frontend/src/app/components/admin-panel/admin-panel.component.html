@@ -18,15 +18,13 @@
           </div>
           
           <div class="form-group">
-            <label for="eventId">Event *</label>
-            <select 
-              id="eventId"
-              [(ngModel)]="formData.eventId" 
-              name="eventId"
-              required>
-              <option value="">Select Event</option>
-              <option *ngFor="let key of getEventsListKeys()" [value]="key">
-                {{ eventsList[key] }} - {{ key }}
+            <label for="event">Event</label>
+            <select id="event" formControlName="eventId" class="form-control">
+              <option value="" disabled>Select an Event</option>
+              <!-- FIX: Changed getEventsListKeys() to getEventKeys() -->
+              <option *ngFor="let key of getEventKeys()" [value]="key">
+                <!-- FIX: Changed eventsList to events -->
+                {{ events[key] }} - {{ key }}
               </option>
             </select>
           </div>

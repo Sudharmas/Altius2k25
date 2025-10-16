@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AdminService } from '../../services/admin.service';
-import { AuthService } from '../../services/auth.service';
-import { Notification } from '../../models/models';
+import { Notification, NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-notifications',
@@ -10,57 +7,47 @@ import { Notification } from '../../models/models';
   styleUrls: ['./notifications.component.css']
 })
 export class NotificationsComponent implements OnInit {
+  
   notifications: Notification[] = [];
+  isLoading = true;
 
-  constructor(
-    private adminService: AdminService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private notificationService: NotificationService) { }
 
-  ngOnInit() {
-    if (!this.authService.isAdministrator()) {
-      this.router.navigate(['/home']);
-      return;
-    }
-    
+  ngOnInit(): void {
     this.loadNotifications();
   }
 
-  loadNotifications() {
-    this.adminService.getPendingNotifications().subscribe({
-      next: (notifications) => {
-        this.notifications = notifications;
+  loadNotifications(): void {
+    this.isLoading = true;
+    this.notificationService.getPendingNotifications().subscribe({
+      next: (data) => {
+        this.notifications = data;
+        this.isLoading = false;
       },
-      error: (error) => {
-        console.error('Error loading notifications:', error);
+      error: (err) => {
+        console.error('Failed to load notifications', err);
+        this.isLoading = false;
       }
     });
   }
 
-  approveRequest(notification: Notification) {
-    if (notification.id) {
-      this.adminService.updateNotificationStatus(notification.id, 'APPROVED').subscribe({
-        next: () => {
-          this.loadNotifications();
-        },
-        error: (error) => {
-          console.error('Error approving request:', error);
-        }
-      });
-    }
+  approve(id: number): void {
+    this.notificationService.approveNotification(id).subscribe({
+      next: () => {
+        // Remove the notification from the list without a page reload
+        this.notifications = this.notifications.filter(n => n.id !== id);
+      },
+      error: (err) => console.error(`Failed to approve notification ${id}`, err)
+    });
   }
 
-  rejectRequest(notification: Notification) {
-    if (notification.id) {
-      this.adminService.updateNotificationStatus(notification.id, 'REJECTED').subscribe({
-        next: () => {
-          this.loadNotifications();
-        },
-        error: (error) => {
-          console.error('Error rejecting request:', error);
-        }
-      });
-    }
+  reject(id: number): void {
+    this.notificationService.rejectNotification(id).subscribe({
+      next: () => {
+        // Remove the notification from the list without a page reload
+        this.notifications = this.notifications.filter(n => n.id !== id);
+      },
+      error: (err) => console.error(`Failed to reject notification ${id}`, err)
+    });
   }
 }
