@@ -1,0 +1,10 @@
+# Placeholder - Replace with actual rulebook PDF
+
+This is a placeholder file for event rulebook AK25001.pdf
+
+Place your actual event rulebook PDF here with the filename matching your event ID.
+
+Format: PDF
+Max file size: 5MB
+
+See rulebooks/README.md for more details.

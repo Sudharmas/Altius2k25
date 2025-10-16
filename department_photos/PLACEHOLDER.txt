@@ -1,0 +1,11 @@
+# Placeholder - Replace with actual department photo
+
+This is a placeholder file for department photo CSE.jpg
+
+Place your actual department photos here with the filename matching your department ID.
+
+Format: JPG/JPEG
+Size: 1200x800 pixels recommended
+Max file size: 2MB
+
+See department_photos/README.md for more details.
