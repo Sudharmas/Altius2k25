@@ -32,7 +32,7 @@ public class AdminController {
     
     @PutMapping("/results/{id}")
     public ResponseEntity<EventResult> updateResult(
-            @PathVariable Long id, 
+            @PathVariable String id, 
             @RequestBody ResultSubmissionRequest request) {
         EventResult result = adminService.updateResult(id, request);
         
