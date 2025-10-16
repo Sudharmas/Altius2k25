@@ -20,8 +20,8 @@ This document summarizes what has been delivered for the Altius 2k25 Event Manag
 - 1 CORS configuration
 
 ✅ **Dual Database Integration**:
-- MongoDB Atlas for events and credentials
-- Neon PostgreSQL for results and notifications
+- MongoDB Atlas for events, credentials, and event results
+- Neon PostgreSQL for administrator notifications only
 
 ✅ **RESTful API Endpoints**:
 - Authentication: 1 endpoint

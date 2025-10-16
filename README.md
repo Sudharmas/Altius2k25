@@ -39,8 +39,9 @@ A full-stack web application for managing technical fest events, built with Spri
 - HTML5/CSS3
 
 ### Databases
-- MongoDB Atlas (Event data and credentials)
-- PostgreSQL/Neon (Event results and notifications)
+- MongoDB Atlas (Events, credentials, and event results)
+- PostgreSQL/Neon (Administrator notifications only)
+
 
 ## Prerequisites
 

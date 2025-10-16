@@ -44,9 +44,9 @@ Altius 2k25 is a comprehensive full-stack web application designed to manage tec
 - **Primary Database**: MongoDB Atlas (NoSQL)
   - Stores event information
   - Stores user credentials
-- **Secondary Database**: Neon PostgreSQL (SQL)
   - Stores event results
-  - Stores notifications
+- **Secondary Database**: Neon PostgreSQL (SQL)
+  - Stores administrator notifications only
 - **APIs**: RESTful APIs with JSON
 
 ### Frontend
@@ -93,17 +93,19 @@ Altius 2k25 is a comprehensive full-stack web application designed to manage tec
 }
 ```
 
-### PostgreSQL Tables
-
-#### event_results Table
-```sql
-id              BIGSERIAL PRIMARY KEY
-coordinator_id  VARCHAR(255)
-event_id        VARCHAR(255)
-winners_dept    VARCHAR(255)
-runners_dept    VARCHAR(255)
-submitted_at    TIMESTAMP
+#### EVENT_RESULTS Collection
+```javascript
+{
+  _id: ObjectId,
+  coordinatorId: "4SU20CS001",     // Coordinator USN
+  eventId: "AK25001",              // Event identifier
+  winnersDept: "CSE",              // Winners department
+  runnersDept: "ISE",              // Runners department
+  submittedAt: ISODate             // Timestamp
+}
 ```
+
+### PostgreSQL Tables
 
 #### notifications Table
 ```sql
@@ -114,6 +116,8 @@ message         TEXT
 status          VARCHAR(50)      -- PENDING, APPROVED, REJECTED
 created_at      TIMESTAMP
 ```
+
+**Note**: PostgreSQL database is used only for administrator notifications. All other data (events, credentials, event results) are stored in MongoDB.
 
 ## API Endpoints
 
@@ -187,7 +191,7 @@ backend/
 │   ├── model/                             # Data models
 │   │   ├── Event.java                     # MongoDB event model
 │   │   ├── Credential.java                # MongoDB credential model
-│   │   ├── EventResult.java               # PostgreSQL result model
+│   │   ├── EventResult.java               # MongoDB event result model
 │   │   └── Notification.java              # PostgreSQL notification model
 │   ├── repository/                        # Database repositories
 │   │   ├── EventRepository.java
