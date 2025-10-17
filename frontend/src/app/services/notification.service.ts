@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 // Define an interface that matches your backend Notification model
 export interface Notification {
@@ -17,7 +18,7 @@ export interface Notification {
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'http://localhost:8080/api/notifications';
+  private apiUrl = `${environment.apiUrl}/api/notifications`;
 
   constructor(private http: HttpClient) { }
 
@@ -28,11 +29,13 @@ export class NotificationService {
 
   // Method to approve a notification
   approveNotification(id: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${id}/approve`, {});
+    // Note: The approval endpoint remains under /api/admin for security
+    return this.http.post<void>(`${environment.apiUrl}/admin/notifications/${id}/approve`, {});
   }
 
   // Method to reject a notification
   rejectNotification(id: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${id}/reject`, {});
+    // Note: The rejection endpoint remains under /api/admin for security
+    return this.http.post<void>(`${environment.apiUrl}/admin/notifications/${id}/reject`, {});
   }
 }
