@@ -33,9 +33,13 @@
         </div>
         
         <div class="result-actions">
-          <button class="btn-update" (click)="requestUpdate(result)">
-            Request Update
-          </button>
+          <td>
+            <div class="button-container">
+              <button class="btn-update" (click)="requestScoreUpdate(result.id!)">
+                Request Update
+              </button>
+            </div>
+          </td>
         </div>
       </div>
     </div>

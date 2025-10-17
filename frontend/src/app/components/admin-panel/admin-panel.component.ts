@@ -1,10 +1,9 @@
 // /workspaces/Altius2k25/frontend/src/app/components/admin-panel/admin-panel.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
-import { EventService } from '../../services/event.service';
 import { AuthService } from '../../services/auth.service';
-import { Event, EventResult } from '../../models/models';
+import { Router } from '@angular/router';
+import { EventResult } from '../../models/models';
 
 @Component({
   selector: 'app-admin-panel',
@@ -12,81 +11,75 @@ import { Event, EventResult } from '../../models/models';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  // Maps for departments and events - will be loaded from API
-  events: { [key: string]: string } = {}; // Maps event IDs to event names
-  departments: { [key: string]: string } = {}; // Maps department IDs to department names
-
-  formData: EventResult = {
-    coordinatorId: '',
+  result: EventResult = {
+    id: 0, // Changed from resultId to id
     eventId: '',
     winnersDept: '',
-    runnersDept: ''
+    runnersDept: '',
+    coordinatorId: ''
   };
-  successMessage = '';
-  errorMessage = '';
+  events: any[] = [];
+  departments: { [key: string]: string } = {}; // Added departments property
+  formData: any = {}; // Added formData property
+  successMessage: string = ''; // Added successMessage property
+  errorMessage: string = ''; // Added errorMessage property
+  requestMessage = '';
 
   constructor(
     private adminService: AdminService,
-    private eventService: EventService,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService, // Injected AuthService
+    private router: Router // Injected Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return;
     }
-    
-    const user = this.authService.getUser();
-    if (user) {
-      this.formData.coordinatorId = user.username;
-    }
-    
     this.loadEvents();
     this.loadDepartments();
+    this.resetForm();
   }
 
-  loadEvents() {
-    this.adminService.getEventsList().subscribe({
-      next: (events) => {
+  loadEvents(): void {
+    this.adminService.getEvents().subscribe({
+      next: (events: any[]) => {
         this.events = events;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading events:', error);
-        this.errorMessage = 'Failed to load events.';
       }
     });
   }
 
-  loadDepartments() {
+  loadDepartments(): void {
     this.adminService.getDepartments().subscribe({
-      next: (depts) => {
+      next: (depts: { [key: string]: string }) => {
         this.departments = depts;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error loading departments:', error);
       }
     });
   }
 
-  submitResult() {
+  onSubmit(): void {
     this.successMessage = '';
     this.errorMessage = '';
-    
+
     if (!this.formData.eventId || !this.formData.winnersDept || !this.formData.runnersDept) {
       this.errorMessage = 'Please fill in all fields.';
       return;
     }
 
     this.adminService.submitResult(this.formData).subscribe({
-      next: (result) => {
+      next: () => {
         this.successMessage = 'Result submitted successfully! Leaderboard will be updated.';
         this.resetForm();
       },
-      error: (error) => {
-        this.errorMessage = 'Failed to submit result. Please try again.';
+      error: (error: any) => {
         console.error('Error submitting result:', error);
+        this.errorMessage = 'Failed to submit result. Please try again.';
       }
     });
   }
@@ -95,17 +88,13 @@ export class AdminPanelComponent implements OnInit {
     return Object.keys(this.departments);
   }
 
-  getEventKeys(): string[] {
-    return Object.keys(this.events);
-  }
-
-  resetForm() {
+  resetForm(): void {
     const user = this.authService.getUser();
     this.formData = {
-      coordinatorId: user ? user.username : '',
       eventId: '',
       winnersDept: '',
-      runnersDept: ''
+      runnersDept: '',
+      coordinatorId: user ? user.username : ''
     };
   }
 }

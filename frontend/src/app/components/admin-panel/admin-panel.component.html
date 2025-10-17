@@ -1,89 +1,47 @@
 <div class="admin-panel-container">
-  <div class="container">
-    <h1 class="page-title">Admin Panel</h1>
-    
-    <div class="panel-content">
-      <div class="form-section">
-        <h2>Submit Event Results</h2>
-        
-        <form (ngSubmit)="submitResult()">
-          <div class="form-group">
-            <label>Coordinator ID (USN)</label>
-            <input 
-              type="text" 
-              [(ngModel)]="formData.coordinatorId" 
-              name="coordinatorId"
-              readonly
-              class="readonly-input">
-          </div>
-          
-          <div class="form-group">
-            <label for="event">Event *</label>
-            <select 
-              id="event" 
-              [(ngModel)]="formData.eventId" 
-              name="eventId"
-              required>
-              <option value="">Select an Event</option>
-              <option *ngFor="let key of getEventKeys()" [value]="key">
-                {{ events[key] }} - {{ key }}
-              </option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="winnersDept">Winners Department *</label>
-            <select 
-              id="winnersDept"
-              [(ngModel)]="formData.winnersDept" 
-              name="winnersDept"
-              required>
-              <option value="">Select Department</option>
-              <option *ngFor="let key of getDepartmentKeys()" [value]="key">
-                {{ departments[key] }} - {{ key }}
-              </option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="runnersDept">Runners Department *</label>
-            <select 
-              id="runnersDept"
-              [(ngModel)]="formData.runnersDept" 
-              name="runnersDept"
-              required>
-              <option value="">Select Department</option>
-              <option *ngFor="let key of getDepartmentKeys()" [value]="key">
-                {{ departments[key] }} - {{ key }}
-              </option>
-            </select>
-          </div>
-          
-          <div class="success-message" *ngIf="successMessage">
-            {{ successMessage }}
-          </div>
-          
-          <div class="error-message" *ngIf="errorMessage">
-            {{ errorMessage }}
-          </div>
-          
-          <div class="button-group">
-            <button type="submit" class="btn-submit">Submit Result</button>
-            <button type="button" class="btn-reset" (click)="resetForm()">Reset</button>
-          </div>
-        </form>
+  <h2>Submit Event Result</h2>
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="eventId">Event</label>
+        <select id="eventId" name="eventId" [(ngModel)]="formData.eventId" required>
+          <option value="" disabled>Select an event</option>
+          <option *ngFor="let event of events" [value]="event.eventId">
+            {{ event.eventName }}
+          </option>
+        </select>
       </div>
-      
-      <div class="info-section">
-        <h3>Important Instructions</h3>
-        <ul>
-          <li>All fields marked with * are required</li>
-          <li>Select the event from the dropdown list</li>
-          <li>Enter department names clearly</li>
-          <li>If you need to edit submitted results, visit the <a routerLink="/view-scores">View Scores</a> page</li>
-          <li>Ensure all information is correct before submitting</li>
-        </ul>
+
+      <div class="form-group">
+        <label for="winnersDept">Winner's Department</label>
+        <select id="winnersDept" name="winnersDept" [(ngModel)]="formData.winnersDept" required>
+          <option value="" disabled>Select a department</option>
+          <option *ngFor="let key of getDepartmentKeys()" [value]="key">
+            {{ departments[key] }} - {{ key }}
+          </option>
+        </select>
       </div>
-    </div>
+
+      <div class="form-group">
+        <label for="runnersDept">Runner's Department</label>
+        <select id="runnersDept" name="runnersDept" [(ngModel)]="formData.runnersDept" required>
+          <option value="" disabled>Select a department</option>
+          <option *ngFor="let key of getDepartmentKeys()" [value]="key">
+            {{ departments[key] }} - {{ key }}
+          </option>
+        </select>
+      </div>
+
+      <div class="message-container">
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit Result</button>
+    </form>
   </div>
 </div>
