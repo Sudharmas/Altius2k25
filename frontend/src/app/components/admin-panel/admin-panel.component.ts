@@ -12,10 +12,9 @@ import { Event, EventResult } from '../../models/models';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  events: { [key: string]: string } = {"chess":"EVNT001","coding":"EVNT002","debate":"EVNT003"}; // Maps event names to IDs
-
-  // Maps for departments and events
-  departments: { [key: string]: string } = {"Computer Science":"CSE","Mechanical Engineering":"ME","Electrical Engineering":"EE","Civil Engineering":"CE","Electronics and Communication":"ECE","Information Technology":"IT","Chemical Engineering":"CHE","Biotechnology":"BT","Aerospace Engineering":"AE","Environmental Science":"ES"};
+  // Maps for departments and events - will be loaded from API
+  events: { [key: string]: string } = {}; // Maps event IDs to event names
+  departments: { [key: string]: string } = {}; // Maps department IDs to department names
 
   formData: EventResult = {
     coordinatorId: '',
@@ -49,12 +48,9 @@ export class AdminPanelComponent implements OnInit {
   }
 
   loadEvents() {
-    this.eventService.getAllEvents().subscribe({
-      next: (events: Event[]) => {
-        this.events = events.reduce((acc, event) => {
-          acc[event.eventName] = event.eventId;
-          return acc;
-        }, {} as { [key: string]: string });
+    this.adminService.getEventsList().subscribe({
+      next: (events) => {
+        this.events = events;
       },
       error: (error) => {
         console.error('Error loading events:', error);

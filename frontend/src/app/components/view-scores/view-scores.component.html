@@ -9,7 +9,7 @@
     <div class="results-list">
       <div class="result-card" *ngFor="let result of results">
         <div class="result-header">
-          <h3>{{ result.eventId }}</h3>
+          <h3>{{ result.eventName || result.eventId }}</h3>
           <span class="timestamp" *ngIf="result.submittedAt">
             Submitted: {{ result.submittedAt | date:'short' }}
           </span>
@@ -18,12 +18,12 @@
         <div class="result-details">
           <div class="detail-row">
             <span class="label">🏆 Winners:</span>
-            <span class="value">{{ result.winnersDept }}</span>
+            <span class="value">{{ result.winnersDeptName || result.winnersDept }}</span>
           </div>
           
           <div class="detail-row">
             <span class="label">🥈 Runners:</span>
-            <span class="value">{{ result.runnersDept }}</span>
+            <span class="value">{{ result.runnersDeptName || result.runnersDept }}</span>
           </div>
           
           <div class="detail-row">

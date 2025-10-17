@@ -23,8 +23,11 @@ export interface EventResult {
   id?: number;
   coordinatorId: string;
   eventId: string;
+  eventName?: string;
   winnersDept: string;
+  winnersDeptName?: string;
   runnersDept: string;
+  runnersDeptName?: string;
   submittedAt?: Date;
 }
 
