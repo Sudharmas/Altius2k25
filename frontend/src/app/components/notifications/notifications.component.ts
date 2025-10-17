@@ -19,13 +19,21 @@ export class NotificationsComponent implements OnInit {
 
   loadNotifications(): void {
     this.isLoading = true;
+    console.log('NotificationsComponent: Starting to load notifications...');
     this.notificationService.getPendingNotifications().subscribe({
       next: (data) => {
+        console.log('NotificationsComponent: Successfully loaded notifications:', data);
+        console.log('NotificationsComponent: Number of notifications:', data.length);
         this.notifications = data;
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Failed to load notifications', err);
+        console.error('NotificationsComponent: Failed to load notifications');
+        console.error('NotificationsComponent: Error details:', err);
+        console.error('NotificationsComponent: Status:', err.status);
+        console.error('NotificationsComponent: Status Text:', err.statusText);
+        console.error('NotificationsComponent: Error message:', err.message);
+        console.error('NotificationsComponent: URL:', err.url);
         this.isLoading = false;
       }
     });

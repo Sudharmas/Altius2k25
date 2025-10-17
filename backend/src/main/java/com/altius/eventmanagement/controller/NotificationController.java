@@ -7,35 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200") // Allow requests from frontend
+@RequestMapping("/api/notifications")
+@CrossOrigin(origins = "*")
 public class NotificationController {
 
     @Autowired
     private NotificationService notificationService;
 
-    @GetMapping("/notifications")
-    public List<Notification> getPendingNotifications() {
-        return notificationService.getPendingNotifications();
-    }
-
-    @PostMapping("/notifications/{id}/approve")
-    public ResponseEntity<Void> approveNotification(@PathVariable Long id) {
-        notificationService.updateNotificationStatus(id, "APPROVED");
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/notifications/{id}/reject")
-    public ResponseEntity<Void> rejectNotification(@PathVariable Long id) {
-        notificationService.updateNotificationStatus(id, "REJECTED");
-        return ResponseEntity.ok().build();
+    @GetMapping
+    public ResponseEntity<List<Notification>> getPublicNotifications() {
+        System.out.println("NotificationController: Received GET request for /api/notifications");
+        try {
+            // This endpoint provides public access to pending notifications
+            List<Notification> notifications = notificationService.getPendingNotifications();
+            System.out.println("NotificationController: Returning " + notifications.size() + " notifications");
+            return ResponseEntity.ok(notifications);
+        } catch (Exception e) {
+            System.err.println("NotificationController: Error processing request: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 }

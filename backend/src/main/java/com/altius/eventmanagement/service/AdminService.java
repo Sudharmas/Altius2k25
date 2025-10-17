@@ -39,17 +39,17 @@ public class AdminService {
             throw new IllegalArgumentException("Invalid runner department ID: " + request.getRunnersDept());
         }
         
-        EventResult result = new EventResult();
-        result.setCoordinatorId(request.getCoordinatorId());
-        result.setEventId(request.getEventId());
-        result.setEventName(com.altius.eventmanagement.constants.EventConstants.getEventName(request.getEventId()));
-        result.setWinnersDept(request.getWinnersDept());
-        result.setWinnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getWinnersDept()));
-        result.setRunnersDept(request.getRunnersDept());
-        result.setRunnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getRunnersDept()));
-        result.setSubmittedAt(LocalDateTime.now());
+        EventResult eventResult = new EventResult();
+        eventResult.setCoordinatorId(request.getCoordinatorId());
+        eventResult.setEventId(request.getEventId());
+        eventResult.setEventName(com.altius.eventmanagement.constants.EventConstants.getEventName(request.getEventId()));
+        eventResult.setWinnersDept(request.getWinnersDept());
+        eventResult.setWinnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getWinnersDept()));
+        eventResult.setRunnersDept(request.getRunnersDept());
+        eventResult.setRunnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getRunnersDept()));
+        eventResult.setSubmittedAt(LocalDateTime.now());
         
-        EventResult savedResult = eventResultRepository.save(result);
+        EventResult savedResult = eventResultRepository.save(eventResult);
         
         // Immediately update champions count
         championsService.championsCounter(request.getWinnersDept(), request.getRunnersDept());
@@ -65,13 +65,13 @@ public class AdminService {
         Optional<EventResult> resultOpt = eventResultRepository.findById(id);
         
         if (resultOpt.isPresent()) {
-            EventResult result = resultOpt.get();
-            result.setWinnersDept(request.getWinnersDept());
-            result.setWinnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getWinnersDept()));
-            result.setRunnersDept(request.getRunnersDept());
-            result.setRunnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getRunnersDept()));
+            EventResult existingResult = resultOpt.get();
+            existingResult.setWinnersDept(request.getWinnersDept());
+            existingResult.setWinnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getWinnersDept()));
+            existingResult.setRunnersDept(request.getRunnersDept());
+            existingResult.setRunnersDeptName(com.altius.eventmanagement.constants.DepartmentConstants.getDepartmentName(request.getRunnersDept()));
             
-            return eventResultRepository.save(result);
+            return eventResultRepository.save(existingResult);
         }
         
         return null;

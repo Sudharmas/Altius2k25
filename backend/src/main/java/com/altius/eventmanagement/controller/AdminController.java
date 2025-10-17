@@ -63,12 +63,23 @@ public class AdminController {
             @PathVariable Long id, 
             @RequestBody Map<String, String> request) {
         String status = request.get("status");
-        Notification notification = adminService.updateNotificationStatus(id, status);
-        
-        if (notification != null) {
-            return ResponseEntity.ok(notification);
+        Notification updatedNotification = adminService.updateNotificationStatus(id, status);
+        if (updatedNotification != null) {
+            return ResponseEntity.ok(updatedNotification);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/notifications/{id}/approve")
+    public ResponseEntity<Void> approveNotification(@PathVariable Long id) {
+        adminService.updateNotificationStatus(id, "APPROVED");
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/notifications/{id}/reject")
+    public ResponseEntity<Void> rejectNotification(@PathVariable Long id) {
+        adminService.updateNotificationStatus(id, "REJECTED");
+        return ResponseEntity.ok().build();
     }
 }
