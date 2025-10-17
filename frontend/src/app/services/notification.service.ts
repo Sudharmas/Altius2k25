@@ -24,6 +24,9 @@ export class NotificationService {
 
   // Method to get pending notifications from the backend
   getPendingNotifications(): Observable<Notification[]> {
+    const url = this.apiUrl;
+    console.log('NotificationService: Making GET request to:', url);
+    console.log('NotificationService: Full API URL:', `${environment.apiUrl}/api/notifications`);
     return this.http.get<Notification[]>(this.apiUrl);
   }
 

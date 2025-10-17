@@ -22,7 +22,16 @@ public class NotificationController {
 
     @GetMapping
     public ResponseEntity<List<Notification>> getPublicNotifications() {
-        // This endpoint provides public access to pending notifications
-        return ResponseEntity.ok(notificationService.getPendingNotifications());
+        System.out.println("NotificationController: Received GET request for /api/notifications");
+        try {
+            // This endpoint provides public access to pending notifications
+            List<Notification> notifications = notificationService.getPendingNotifications();
+            System.out.println("NotificationController: Returning " + notifications.size() + " notifications");
+            return ResponseEntity.ok(notifications);
+        } catch (Exception e) {
+            System.err.println("NotificationController: Error processing request: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 }

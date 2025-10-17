@@ -25,8 +25,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 // Explicitly allow all OPTIONS requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // Allow public access to auth and events endpoints
-                .requestMatchers("/api/auth/**", "/api/events/**").permitAll()
+                // Allow public access to auth, events, and notifications endpoints
+                .requestMatchers("/api/auth/**", "/api/events/**", "/api/notifications").permitAll()
                 // Secure the admin endpoints
                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "ADMINISTRATOR")
                 // All other requests must be authenticated
