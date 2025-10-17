@@ -19,8 +19,11 @@ public class EventResult {
     
     private String coordinatorId;
     private String eventId;
+    private String eventName;
     private String winnersDept;
+    private String winnersDeptName;
     private String runnersDept;
+    private String runnersDeptName;
     private LocalDateTime submittedAt;
     
 }
