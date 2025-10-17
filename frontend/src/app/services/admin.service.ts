@@ -1,50 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EventResult, Notification, ChampionsCount } from '../models/models';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment'; // Import environment
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = `${environment.apiUrl}/admin`;
+  // FIX: Use the apiUrl from the environment file
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  submitResult(result: EventResult): Observable<EventResult> {
-    return this.http.post<EventResult>(`${this.apiUrl}/submit-result`, result);
+  getEvents(): Observable<any> {
+    // FIX: Construct the full URL for the API call
+    return this.http.get(`${this.apiUrl}/champions/events`);
   }
 
-  getAllResults(): Observable<EventResult[]> {
-    return this.http.get<EventResult[]>(`${this.apiUrl}/results`);
+  getDepartments(): Observable<any> {
+    // FIX: Construct the full URL for the API call
+    return this.http.get(`${this.apiUrl}/champions/departments`);
   }
 
-  updateResult(id: number, result: EventResult): Observable<EventResult> {
-    return this.http.put<EventResult>(`${this.apiUrl}/results/${id}`, result);
+  submitResult(result: any): Observable<any> {
+    // FIX: Construct the full URL for the API call
+    return this.http.post(`${this.apiUrl}/admin/results`, result);
   }
 
-  requestUpdate(request: any): Observable<Notification> {
-    return this.http.post<Notification>(`${this.apiUrl}/request-update`, request);
+  getLeaderboard(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/champions/leaderboard`);
   }
 
-  getPendingNotifications(): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.apiUrl}/notifications`);
+  getAllResults(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/results`);
   }
 
-  updateNotificationStatus(id: number, status: string): Observable<Notification> {
-    return this.http.put<Notification>(`${this.apiUrl}/notifications/${id}`, { status });
-  }
-
-  getLeaderboard(): Observable<ChampionsCount[]> {
-    return this.http.get<ChampionsCount[]>(`${environment.apiUrl}/champions/leaderboard`);
-  }
-
-  getDepartments(): Observable<{ [key: string]: string }> {
-    return this.http.get<{ [key: string]: string }>(`${environment.apiUrl}/champions/departments`);
-  }
-
-  getEventsList(): Observable<{ [key: string]: string }> {
-    return this.http.get<{ [key: string]: string }>(`${environment.apiUrl}/champions/events`);
+  requestUpdate(requestData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/notifications/request`, requestData);
   }
 }

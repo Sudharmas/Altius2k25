@@ -17,31 +17,26 @@ export class ViewScoresComponent implements OnInit {
     this.loadResults();
   }
 
-  loadResults() {
+  loadResults(): void {
     this.adminService.getAllResults().subscribe({
-      next: (results) => {
+      next: (results: any[]) => { // Add type 'any[]'
         this.results = results;
       },
-      error: (error) => {
+      error: (error: any) => { // Add type 'any'
         console.error('Error loading results:', error);
       }
     });
   }
 
-  requestUpdate(result: EventResult) {
-    const message = `Request to update event ${result.eventId}: Winners - ${result.winnersDept}, Runners - ${result.runnersDept}`;
-    
-    this.adminService.requestUpdate({
-      coordinatorId: result.coordinatorId,
-      eventId: result.eventId,
-      message: message
-    }).subscribe({
+  requestScoreUpdate(resultId: number): void {
+    const message = `Request to update score for result ID: ${resultId}`;
+    this.adminService.requestUpdate({ message, resultId }).subscribe({
       next: () => {
-        this.requestMessage = 'Update request sent to administrator!';
-        setTimeout(() => this.requestMessage = '', 3000);
+        alert('Update request sent to administrator!');
       },
-      error: (error) => {
-        console.error('Error sending request:', error);
+      error: (error: any) => { // Add type 'any'
+        console.error('Error sending update request:', error);
+        alert('Failed to send update request.');
       }
     });
   }

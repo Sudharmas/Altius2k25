@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   leaderboard: ChampionsCount[] = [];
   private refreshSubscription?: Subscription;
 
+  isLoading = false;
+
   coordinators = {
     staff: [
       { name: 'Dr. Staff Coordinator 1', contact: '+91 9876543210', photo: 'assets/coordinators/staff1.jpg' },
@@ -58,13 +60,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadLeaderboard() {
+  loadLeaderboard(): void {
+    this.isLoading = true;
     this.adminService.getLeaderboard().subscribe({
-      next: (leaderboard) => {
+      next: (leaderboard: any[]) => { // Add type 'any[]'
         this.leaderboard = leaderboard;
+        this.isLoading = false;
       },
-      error: (error) => {
+      error: (error: any) => { // Add type 'any'
         console.error('Error loading leaderboard:', error);
+        this.isLoading = false;
       }
     });
   }

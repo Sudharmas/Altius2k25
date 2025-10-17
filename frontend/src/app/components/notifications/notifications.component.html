@@ -34,4 +34,28 @@
   <div *ngIf="!isLoading && notifications.length === 0" class="no-notifications">
     There are no pending notifications at the moment.
   </div>
+</div> <!-- This closing div was likely missing -->
+
+<div class="admin-panel-container">
+  <h2 class="page-title">Admin Panel - Submit Results</h2>
+  
+  <!-- FIX: Add the [formGroup] directive to link this form to the 'resultForm' FormGroup in your component -->
+  <form [formGroup]="resultForm" (ngSubmit)="onSubmit()" class="result-form">
+    
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-group">
+      <label for="result">Result</label>
+      <input type="text" id="result" name="result" formControlName="result" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="comment">Comment</label>
+      <textarea id="comment" name="comment" formControlName="comment" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 </div>
